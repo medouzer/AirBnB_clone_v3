@@ -113,3 +113,25 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+
+    def test_get_method(self):
+        """Test get method"""
+        state = State(name="California")
+        state.save()
+        retrieved_state = models.storage.get(cls=State, id=state.id)
+        self.assertIsNotNone(retrieved_state)  # Assert retrieved object is not None
+        self.assertEqual(retrieved_state.name, "California")  # Assert attributes match
+
+    def test_get_method_without_id(self):
+        """Test get method without id"""
+        state = State(name="California")
+        state.save()
+        with self.assertRaises(TypeError):
+            models.storage.get(cls=State)  # Expect a TypeError to be raised
+
+    def test_count_method(self):
+        """Test count method"""
+        state = State(name="California")
+        state.save()
+        self.assertEqual(models.storage.count(State), 1)  # Assert count is 1 after saving
+
