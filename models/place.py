@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """ holds class Place"""
 import models
 from models.base_model import BaseModel, Base
