@@ -10,9 +10,10 @@ from models.state import State
 @app_views.route('/states', methods=['GET'], strict_slashes=False)
 def get_states():
     """get all states"""
+    dict_states = []
     states = storage.all(State).values()
     for state in states:
-        dict_states = state.to_dict()
+        dict_states.append(state.to_dict())
     return jsonify(dict_states)
 
 
@@ -40,7 +41,7 @@ def delete(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post():
     """post method"""
-    req_data = request.get_json()
+    req_data = request.get_json(silent=True)
     if req_data is None:
         abort(400, 'Not a JSON')
     if "name" not in req_data:
@@ -57,7 +58,7 @@ def put(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    req_data = request.get_json()
+    req_data = request.get_json(silent=True)
     if req_data is None:
         abort(400, 'Not a JSON')
     for key, value in req_data.items():
