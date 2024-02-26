@@ -1,8 +1,8 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """City"""
 
 from api.v1.views import app_views
-from flask import jsonify, abort, request, make_response
+from flask import jsonify, abort, request
 from models import storage
 from models.state import State
 from models.city import City
@@ -40,7 +40,7 @@ def delete_city(city_id):
         abort(404)
     storage.delete(city)
     storage.save()
-    return make_response(jsonify({}), 200)
+    return jsonify({}), 200
 
 
 @app_views.route('/states/<state_id>/cities',
@@ -52,13 +52,13 @@ def post_city(state_id):
     req_data = request.get_json(silent=True)
     if req_data is None:
         abort(400, 'Not a JSON')
-    if req_data.get("name") is None:
+    if "name" not in req_data:
         abort(400, 'Missing name')
     city = City(**req_data)
     city.state_id = state_id
     storage.save()
     dict_city = city.to_dict()
-    return make_response(jsonify(dict_city), 201)
+    return jsonify(dict_city), 201
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
@@ -75,4 +75,4 @@ def put_city(city_id):
             setattr(req_data, key, value)
     req_data.save()
     state_dict = req_data.to_dict()
-    return make_response(jsonify(state_dict), 200)
+    return jsonify(state_dict), 200
