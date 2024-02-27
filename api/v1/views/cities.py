@@ -27,8 +27,7 @@ def get_city(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
-    dict_city = city.to_dict()
-    return jsonify(dict_city)
+    return jsonify(city.to_dict())
 
 
 @app_views.route('/cities/<city_id>',
@@ -57,8 +56,7 @@ def post_city(state_id):
     city = City(**req_data)
     city.state_id = state_id
     storage.save()
-    dict_city = city.to_dict()
-    return jsonify(dict_city), 201
+    return jsonify(city.to_dict()), 201
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'], strict_slashes=False)
@@ -72,7 +70,6 @@ def put_city(city_id):
         abort(400, 'Not a JSON')
     for key, value in req_data.items():
         if key not in ["id", "state_id", "created_at", "updated_at"]:
-            setattr(req_data, key, value)
-    req_data.save()
-    state_dict = req_data.to_dict()
-    return jsonify(state_dict), 200
+            setattr(city, key, value)
+    city.save()
+    return jsonify(city.to_dict()), 200
