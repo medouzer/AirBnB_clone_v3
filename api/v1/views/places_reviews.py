@@ -75,7 +75,7 @@ def put_review(review_id):
     req_data = request.get_json(silent=True)
     if req_data is None:
         abort(400, 'Not a JSON')
-    fix_keys = ["id", "user_id", "place_id", "created_at", "updated_at"]
+    fix_keys = ['id', 'user_id', 'place_id', 'created_at', 'updated_at']
     for key, value in req_data.items():
         if key not in fix_keys:
             setattr(review, key, value)
