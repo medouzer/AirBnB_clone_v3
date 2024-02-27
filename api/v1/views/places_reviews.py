@@ -44,26 +44,26 @@ def delete_review(review_id):
     return jsonify({}), 200
 
 
-@app_views.route('/places/<place_id>/reviews',
-                 methods=['POST'], strict_slashes=False)
-def post_review(place_id):
-    """post a review to a place"""
-    place = storage.get(Place, place_id)
-    if place is None:
-        abort(404)
-    req_data = request.get_json(silent=True)
-    if req_data is None:
-        abort(400, 'Not a JSON')
-    if "user_id" not in req_data:
-        abort(400, 'Missing user_id')
-    user = storage.get(User, req_data["user_id"])
-    if user not in None:
-        abort(404)
-    if "text" not in req_data:
-        abort(400, 'Missing text')
-    review = Review(place_id=place_id, **req_data)
-    review.save()
-    return jsonify(review.to_dict()), 201
+# @app_views.route('/places/<place_id>/reviews',
+#                  methods=['POST'], strict_slashes=False)
+# def post_review(place_id):
+#     """post a review to a place"""
+#     place = storage.get(Place, place_id)
+#     if place is None:
+#         abort(404)
+#     req_data = request.get_json(silent=True)
+#     if req_data is None:
+#         abort(400, 'Not a JSON')
+#     if "user_id" not in req_data:
+#         abort(400, 'Missing user_id')
+#     user = storage.get(User, req_data["user_id"])
+#     if user not in None:
+#         abort(404)
+#     if "text" not in req_data:
+#         abort(400, 'Missing text')
+#     review = Review(place_id=place_id, **req_data)
+#     review.save()
+#     return jsonify(review.to_dict()), 201
 
 
 @app_views.route('/reviews/<review_id>', methods=['PUT'], strict_slashes=False)
