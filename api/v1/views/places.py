@@ -76,6 +76,6 @@ def put_place(place_id):
         abort(400, 'Not a JSON')
     for key, value in req_data.items():
         if key not in ["id", "user_id", "city_id", "created_at", "updated_at"]:
-            setattr(req_data, key, value)
-    req_data.save()
-    return jsonify(req_data.to_dict()), 200
+            setattr(place, key, value)
+    place.save()
+    return jsonify(place.to_dict()), 200
