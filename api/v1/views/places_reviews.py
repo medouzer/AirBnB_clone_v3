@@ -9,17 +9,18 @@ from models.user import User
 from models.review import Review
 
 
-# @app_views.route('/places/<place_id>/reviews',
-#                  methods=['GET'], strict_slashes=False)
-# def all_reviews(place_id):
-#     """get all reviews of places"""
-#     place = storage.get(Place, place_id)
-#     if place is None:
-#         abort(404)
-#     reviews_list = []
-#     for review in place.reviews:
-#         reviews_list.append(review.to_dict())
-#     return jsonify(reviews_list)
+@app_views.route('/places/<place_id>/reviews',
+                 methods=['GET'], strict_slashes=False)
+def all_reviews(place_id):
+    """get all reviews of places"""
+    place = storage.get(Place, place_id)
+    if place is None:
+        abort(404)
+    # reviews_list = []
+    # for review in place.reviews:
+    #     reviews_list.append(review.to_dict())
+    reviews_list = [review.to_dict() for review in place.reviews]
+    return jsonify(reviews_list)
 
 
 @app_views.route('/reviews/<review_id>', methods=['GET'], strict_slashes=False)
