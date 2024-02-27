@@ -19,7 +19,6 @@ def all_reviews(place_id):
     reviews_list = []
     for review in place.reviews:
         reviews_list.append(review.to_dict())
-    # reviews_list = [review.to_dict() for review in place.reviews]
     return jsonify(reviews_list)
 
 
@@ -57,7 +56,7 @@ def post_review(place_id):
     user_id = req_data.get("user_id")
     if user_id is None:
         abort(400, 'Missing user_id')
-    user = storage.get(User, req_data["user_id"])
+    user = storage.get(User, user_id)
     if user not in None:
         abort(404)
     if "text" not in req_data:
