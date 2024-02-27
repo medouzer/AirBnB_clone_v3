@@ -78,6 +78,6 @@ def put_review(review_id):
     fix_keys = ["id", "user_id", "place_id", "created_at", "updated_at"]
     for key, value in req_data.items():
         if key not in fix_keys:
-            setattr(req_data, key, value)
-    req_data.save()
-    return jsonify(req_data.to_dict()), 200
+            setattr(review, key, value)
+    review.save()
+    return jsonify(review.to_dict()), 200
